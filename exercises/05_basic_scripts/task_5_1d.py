@@ -43,3 +43,11 @@ london_co = {
         "routing": True,
     },
 }
+
+
+protocol = input('Введите имя устройства ')
+keys = ", ".join(london_co[protocol].keys())
+stringTemplate = '''Введите имя параметра ({}): '''
+parameter = input(stringTemplate.format(keys))
+default = london_co[protocol].get(parameter.lower(),'Такого параметра нет')
+print(default)

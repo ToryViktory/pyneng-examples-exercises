@@ -30,3 +30,31 @@ Out[1]: '11111111111111111111111111110000'
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+
+inputValue = input('Введите IP-сети ')
+Mask = inputValue.split('.')[-1].split('/')[-1]
+
+ipValue=inputValue.split('/')[0]
+ipValues=ipValue.split('.')
+mask_bin = "1"*(int(Mask))+"0"*(32-int(Mask))
+
+m1, m2, m3, m4 = [
+    int(mask_bin[0:8], 2),
+    int(mask_bin[8:16], 2),
+    int(mask_bin[16:24], 2),
+    int(mask_bin[24:32], 2),
+]
+stringTemplate = '''
+Network: 
+{0:<10} {1:<10} {2:<10} {3:<10}
+{0:08b}  {1:08b}  {2:08b}  {3:08b}
+
+Mask:
+/{4}
+{5:<8}  {6:<8}  {7:<8}  {8:<8}
+{5:08b}  {6:08b}  {7:08b}  {8:08b}
+'''
+result = stringTemplate.format(int(ipValues[0]),int(ipValues[1]),int(ipValues[2]),int(ipValues[3]),int(Mask),m1,m2,m3,m4)
+
+print(result)
+
