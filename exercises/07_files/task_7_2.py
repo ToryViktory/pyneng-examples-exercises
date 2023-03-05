@@ -39,3 +39,15 @@ interface Ethernet0/3
 ...
 
 """
+from sys import argv
+
+cfg_lines2 = []
+filename = argv[1]
+with open(filename) as f:
+    for line in f:
+        line_list = line.split()
+        if line.startswith('!'):
+            pass
+        else:
+            cfg_lines2.append(line)
+print(''.join(cfg_lines2))

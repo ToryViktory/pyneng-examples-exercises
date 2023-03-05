@@ -20,3 +20,26 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+# from sys import argv
+filtered_lines = []
+new_lines = []
+# filename = argv[1]
+filename = 'CAM_table.txt'
+with open(filename) as f:
+    for line in f:
+        line_elements = line.split()
+
+        for element in line_elements:
+            if '.' in element:
+                filtered_lines.append(line)
+        count=len(filtered_lines)
+    for filtered_line in filtered_lines:
+        vlan = filtered_line.split()[0]
+        mac = filtered_line.split()[1]
+        ports = filtered_line.split()[3]
+
+        output = "{:8} {} {:>8}"
+
+        print(output.format(vlan,mac,ports))
+
+print(''.join(new_lines))

@@ -17,3 +17,23 @@
 """
 
 ignore = ["duplex", "alias", "configuration"]
+
+from sys import argv
+
+cfg_lines2 = []
+src_filename = argv[1]
+dest_filename = argv[2]
+# src_filename = 'config_sw1.txt.'
+# dest_filename = 'config_sw2.txt.'
+with open(src_filename) as f:
+    with open(dest_filename, 'w') as dest:
+        for line in f:
+            words_list = line.split()
+            unique = set(words_list) & set(ignore)
+            if line.startswith('!'):
+                pass
+            elif unique:
+                pass
+            else:
+                cfg_lines2.append(line)
+        dest.writelines(cfg_lines2)
