@@ -80,3 +80,23 @@ infiles = [
     "sh_cdp_n_r2.txt",
     "sh_cdp_n_r3.txt",
 ]
+from task_11_2 import create_network_map
+from draw_network_graph import draw_topology
+def unique_network_map(topology_dict):
+    result_dict = {}
+    topology_copy= topology_dict.copy()
+
+    for key in list(topology_dict.keys()): 
+        for value in list(topology_copy.values()):
+            if key == value:
+                del topology_dict[key]
+                del topology_copy[value]
+
+    result = topology_dict
+
+    return result
+
+if __name__ == "__main__":
+    topology = unique_network_map(create_network_map(infiles))
+    print(topology)
+    draw_topology(topology)

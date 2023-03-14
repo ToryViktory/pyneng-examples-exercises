@@ -43,7 +43,23 @@ def parse_cdp_neighbors(command_output):
     и с файлами и с выводом с оборудования.
     Плюс учимся работать с таким выводом.
     """
+    lines_list = command_output.strip().split('\n')
 
+    filtered = [line for line in lines_list if line != '']
+    result_dict = {}
+    for line in filtered:
+        if line.endswith('show cdp neighbors'):
+            interface = line.split('>')[0]
+        else:
+            elements = line.split()
+            if any(i.isdigit() for i in elements):
+                device, local_intf_name, local_intf_num, *other, port_id_name, port_id_num = elements
+                local_intf = local_intf_name + local_intf_num
+                port_id = port_id_name + port_id_num
+
+                result_dict[(interface, local_intf)] = (device, port_id)
+
+    return result_dict
 
 if __name__ == "__main__":
     with open("sh_cdp_n_sw1.txt") as f:
