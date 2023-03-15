@@ -96,6 +96,13 @@ def unique_network_map(topology_dict):
 
     return result
 
+# def unique_network_map(topology_dict):
+#     network_map = {}
+#     for key, value in topology_dict.items():
+#         if not network_map.get(value) == key:
+#             network_map[key] = value
+#     return network_map
+
 if __name__ == "__main__":
     topology = unique_network_map(create_network_map(infiles))
     print(topology)
