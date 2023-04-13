@@ -42,7 +42,7 @@ C-3PO,c3po@gmail.com,16/12/2019 17:24
 """
 
 import datetime
-
+import csv
 
 def convert_str_to_datetime(datetime_str):
     """
@@ -56,3 +56,37 @@ def convert_datetime_to_str(datetime_obj):
     Конвертирует строку с датой в формате 11/10/2019 14:05 в объект datetime.
     """
     return datetime.datetime.strftime(datetime_obj, "%d/%m/%Y %H:%M")
+
+def write_last_log_to_csv(source_log,output):
+    with open(source_log) as src:
+        reader = csv.reader(src)
+        headers = next(reader)
+        print('Headers: ', headers)
+        result_dict = {}
+        users_dict = {}
+        users_list = [headers]
+        for row in reader:
+            name,email,last_changed = row
+            if users_dict.get(email) is not None:
+                lc_key = users_dict[email].get('last_changed')
+                last_chng_dict = convert_str_to_datetime(lc_key)
+                last_chng_file = convert_str_to_datetime(last_changed)
+                if last_chng_dict < last_chng_file:
+                    users_dict[email]=(dict(name=name, last_changed=last_changed))
+                else:
+                    pass
+            else:
+                users_dict[email]=(dict(name=name, last_changed=last_changed))
+            result_dict.update(users_dict)
+        for key,value in result_dict.items():
+            users_list.append([value.get('name'), key, value.get('last_changed')])
+    
+    with open(output, 'w', newline='') as dest:
+        writer = csv.writer(dest)
+        for row in users_list:
+            if row:
+                writer.writerow(row)
+
+if __name__ == "__main__":
+    info = write_last_log_to_csv("mail_log.csv","output_log.csv")
+    print(info)

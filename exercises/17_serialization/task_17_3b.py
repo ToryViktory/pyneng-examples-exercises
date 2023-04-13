@@ -43,3 +43,34 @@
 > pip install graphviz
 
 """
+from draw_network_graph import draw_topology
+import yaml
+from task_17_3a import generate_topology_from_cdp
+
+def transform_topology(yml_file):
+
+    with open(yml_file) as f:
+        templates = yaml.safe_load(f)
+        print(templates)
+        new_dict = {}
+        for key, value in templates.items():
+            sub_dict = {}
+            for subkey,subvalue in value.items():
+                items = [list(i) for i in subvalue.items()]
+                sub_dict[tuple([key,subkey])]=tuple(items[0])
+                new_dict.update(sub_dict)
+        # Remove duplicates
+        topology_copy= new_dict.copy()
+
+        for key in list(new_dict.keys()): 
+            for value in list(topology_copy.values()):
+                if key == value:
+                    del new_dict[key]
+                    del topology_copy[value]
+        result = new_dict
+    return result
+
+if __name__ == "__main__":
+    topology = transform_topology("topology.yaml")
+    print(topology)
+    draw_topology(topology)
