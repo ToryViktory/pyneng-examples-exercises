@@ -37,6 +37,7 @@
 
 """
 import yaml
+# import glob
 from task_17_3 import parse_sh_cdp_neighbors
 
 def generate_topology_from_cdp(list_of_files,save_to_filename=None):
@@ -51,6 +52,7 @@ def generate_topology_from_cdp(list_of_files,save_to_filename=None):
     return full_dict
 
 if __name__ == "__main__":
+    # list_of_files = glob.glob("sh_cdp_n_*")
     list_of_files = ["sh_cdp_n_sw1.txt","sh_cdp_n_r1.txt","sh_cdp_n_r2.txt","sh_cdp_n_r3.txt","sh_cdp_n_r4.txt","sh_cdp_n_r5.txt","sh_cdp_n_r6.txt"]
     result = generate_topology_from_cdp(list_of_files,"topology.yaml")
     print(result)

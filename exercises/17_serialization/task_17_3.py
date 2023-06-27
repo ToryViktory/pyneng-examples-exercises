@@ -35,9 +35,7 @@ def parse_sh_cdp_neighbors(show_cdp_neighbors):
         for match in re.finditer(regex, show_cdp_neighbors):
                 nested_dict_2 = {}
                 nested_dict_1 = {}
-                device = match.group('device')
-                local_intf = match.group('local_intf')
-                port_id = match.group('port_id')
+                device, local_intf, port_id = match.group("device", "local_intf", "port_id")
                 nested_dict_1[device]=port_id
                 nested_dict_2[local_intf] = nested_dict_1
                 result_dict[hostname].update(nested_dict_2)

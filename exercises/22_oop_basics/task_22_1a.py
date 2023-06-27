@@ -10,9 +10,9 @@
 """
 
 
-class Topology:
-    def __init__(self, topology_dict):
-        self.topology = self._normalize(topology_dict)
+# class Topology:
+#     def __init__(self, topology_dict):
+#         self.topology = self._normalize(topology_dict)
 
 
 topology_example = {
@@ -26,3 +26,29 @@ topology_example = {
     ("SW1", "Eth0/2"): ("R2", "Eth0/0"),
     ("SW1", "Eth0/3"): ("R3", "Eth0/0"),
 }
+
+class Topology:
+    def __init__(self, topology_dict):
+        self.topology = self._normalize(topology_dict)
+
+    def _normalize(self, topology_dict):
+        self.topology = {}
+        for key, value in topology_dict.items():
+            if not self.topology.get(value) == key:
+                self.topology[key]=value
+        return self.topology
+if __name__ == "__main__":
+    top = Topology(topology_example)
+    print(top.topology)
+
+# Alternative from answer
+
+# class Topology:
+#     def __init__(self, topology_dict):
+#         self.topology = self._normalize(topology_dict)
+
+#     def _normalize(self, topology_dict):
+#         return {
+#             min(local, remote): max(local, remote)
+#             for local, remote in topology_dict.items()
+#         }

@@ -47,3 +47,40 @@ topology_example = {
     ("SW1", "Eth0/2"): ("R2", "Eth0/0"),
     ("SW1", "Eth0/3"): ("R3", "Eth0/0"),
 }
+
+class Topology:
+    def __init__(self, topology_dict):
+        self.topology = self._normalize(topology_dict)
+
+    def _normalize(self, topology_dict):
+        self.topology = {}
+        for key, value in topology_dict.items():
+            if not self.topology.get(value) == key:
+                self.topology[key]=value
+        return self.topology
+
+    def delete_link(self, forward_link, reverse_link):
+        topology_copy = self.topology.copy
+        topology_size = len(self.topology)
+        for key, value in list(self.topology.items()):
+            if key == forward_link and value == reverse_link:
+                del self.topology[key]
+            elif key == reverse_link and value == forward_link:
+                del self.topology[key]
+        if topology_size == len(self.topology):
+                print("Такого соединения нет")
+
+    def delete_node(self, node):
+        dict_size = len(self.topology)
+        for key, value in list(self.topology.items()):
+            if key[0] == node or value[0] == node:
+                del self.topology[key]
+        if dict_size == len(self.topology):
+            print("Такого устройства нет")
+
+if __name__ == "__main__":
+    top = Topology(topology_example)
+    top.topology
+    top.delete_node('SW1')
+    print(top.topology)
+
